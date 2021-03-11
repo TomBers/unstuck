@@ -18,12 +18,19 @@ defmodule UnstuckWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :upload do
+
+  end
+
   scope "/", UnstuckWeb do
     pipe_through :browser
     resources "/tasks", TaskController
 
     live "/", PageLive, :index
-    post "/tasks/upload/:id", TaskController, :upload
+  end
+
+  scope "/images", UnstuckWeb do
+    put "/upload", TaskController, :upload
   end
 
   # Other scopes may use custom stacks.

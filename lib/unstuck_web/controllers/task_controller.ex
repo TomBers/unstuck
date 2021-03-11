@@ -15,8 +15,9 @@ defmodule UnstuckWeb.TaskController do
   end
 
   def upload(conn, params) do
+    IO.inspect(conn)
     IO.inspect(params)
-    render(conn, "index.html", tasks: [])
+    render(conn, "empty.html")
   end
 
   def create(conn, %{"task" => task_params}) do

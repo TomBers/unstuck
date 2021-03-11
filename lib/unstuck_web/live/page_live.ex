@@ -7,7 +7,7 @@ defmodule UnstuckWeb.PageLive do
   end
 
   def handle_event("phx-dropzone", [_event, %{"id" => id, "name" => name}], socket) do
-    res = %{id: id, url: "/tasks/upload"}
+    res = %{id: id, url: "/images/upload"}
     {:noreply, assign(socket, file_data: res) }
   end
 
