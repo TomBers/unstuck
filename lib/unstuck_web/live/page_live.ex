@@ -6,11 +6,9 @@ defmodule UnstuckWeb.PageLive do
     {:ok, assign(socket, file_data: %{id: nil, url: nil})}
   end
 
-  def handle_event("phx-dropzone", [_event, _payload], socket) do
-    IO.inspect(_event)
-    IO.inspect(_payload)
-    IO.inspect(socket.assigns)
-    {:noreply, socket}
+  def handle_event("phx-dropzone", [_event, %{"id" => id, "name" => name}], socket) do
+    res = %{id: id, url: "/tasks/upload"}
+    {:noreply, assign(socket, file_data: res) }
   end
 
 

@@ -20,8 +20,10 @@ defmodule UnstuckWeb.Router do
 
   scope "/", UnstuckWeb do
     pipe_through :browser
+    resources "/tasks", TaskController
 
     live "/", PageLive, :index
+    post "/tasks/upload/:id", TaskController, :upload
   end
 
   # Other scopes may use custom stacks.
