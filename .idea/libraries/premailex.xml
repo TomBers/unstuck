@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="premailex" type="mix">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/premailex/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/premailex/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/premailex/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/premailex/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/premailex/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/premailex/ebin" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/deps/premailex/lib" />
+      <root url="file://$PROJECT_DIR$/deps/premailex/lib" />
+      <root url="file://$PROJECT_DIR$/deps/premailex/lib" />
+    </SOURCES>
+  </library>
+</component>
