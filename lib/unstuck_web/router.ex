@@ -27,6 +27,14 @@ defmodule UnstuckWeb.Router do
     resources "/tasks", TaskController
 
     live "/", PageLive, :index
+
+    live "/activities", ActivityLive.Index, :index
+    live "/activities/new", ActivityLive.Index, :new
+    live "/activities/:id/edit", ActivityLive.Index, :edit
+
+    live "/activities/:id", ActivityLive.Show, :show
+    live "/activities/:id/show/edit", ActivityLive.Show, :edit
+
   end
 
   scope "/images", UnstuckWeb do

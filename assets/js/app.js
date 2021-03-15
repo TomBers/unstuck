@@ -17,11 +17,9 @@ import {Socket} from "phoenix"
 import NProgress from "nprogress"
 import {LiveSocket} from "phoenix_live_view"
 import {InitToast} from "./init_toast.js"
-import { PhoenixLiveViewDropzone } from "phoenix_live_view_drop_zone";
 
 let Hooks = {}
 Hooks.InitToast = InitToast
-Hooks.PhoenixLiveViewDropzone = PhoenixLiveViewDropzone;
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {

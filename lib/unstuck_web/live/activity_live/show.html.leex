@@ -1,0 +1,27 @@
+<h1>Show Activity</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, UnstuckWeb.ActivityLive.FormComponent,
+    id: @activity.id,
+    title: @page_title,
+    action: @live_action,
+    activity: @activity,
+    return_to: Routes.activity_show_path(@socket, :show, @activity) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Url:</strong>
+    <%= @activity.url %>
+  </li>
+
+  <li>
+    <strong>Completed at:</strong>
+    <%= @activity.completed_at %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.activity_show_path(@socket, :edit, @activity), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.activity_index_path(@socket, :index) %></span>
