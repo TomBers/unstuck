@@ -13,10 +13,12 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
   def update(%{image: image} = assigns, socket) do
     changeset = Progress.change_image(image)
 
-    {:ok,
-     socket
-     |> assign(assigns)
-     |> assign(:changeset, changeset)}
+    {
+      :ok,
+      socket
+      |> assign(assigns)
+      |> assign(:changeset, changeset)
+    }
   end
 
   @impl true
@@ -29,38 +31,55 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("save", %{"image" => %{"activity_id" => activity_id}}, socket) do
+  def handle_event(
+        "save",
+        %{
+          "image" => %{
+            "activity_id" => activity_id
+          }
+        },
+        socket
+      ) do
     activity = Progress.get_activity!(activity_id)
     save_image(socket, activity)
   end
 
-#  defp save_image(socket, :edit, image_params) do
-#
-#    case Progress.update_image(socket.assigns.image, image_params) do
-#      {:ok, _image} ->
-#        {:noreply,
-#         socket
-#         |> put_flash(:info, "Image updated successfully")
-#         |> push_redirect(to: socket.assigns.return_to)}
-#
-#      {:error, %Ecto.Changeset{} = changeset} ->
-#        {:noreply, assign(socket, :changeset, changeset)}
-#    end
-#  end
+  #  defp save_image(socket, :edit, image_params) do
+  #
+  #    case Progress.update_image(socket.assigns.image, image_params) do
+  #      {:ok, _image} ->
+  #        {:noreply,
+  #         socket
+  #         |> put_flash(:info, "Image updated successfully")
+  #         |> push_redirect(to: socket.assigns.return_to)}
+  #
+  #      {:error, %Ecto.Changeset{} = changeset} ->
+  #        {:noreply, assign(socket, :changeset, changeset)}
+  #    end
+  #  end
 
   defp save_image(socket, activity) do
-    image = put_image_url(socket, %Image{})
-    case Progress.create_image(image, %{}, activity, &consume_image(socket, &1)) do
-      {:ok, _image} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Image created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+    process_images(socket, activity)
+    {
+      :noreply,
+      socket
+      |> put_flash(:info, "Image created successfully")
+      |> push_redirect(to: socket.assigns.return_to)
+    }
+  end
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset)
-        {:noreply, assign(socket, changeset: changeset)}
-    end
+  def process_images(socket, activity) do
+    {completed, []} = uploaded_entries(socket, :images)
+    completed
+    |> Enum.map(fn (img) -> save_and_store_img(socket, img, activity) end)
+
+    consume_images(socket)
+  end
+
+  def save_and_store_img(socket, img, activity) do
+    url = Routes.static_path(socket, "/images/#{img.uuid}.#{ext(img)}")
+    image = %Image{url: url}
+    Progress.create_image(image, %{}, activity)
   end
 
   defp ext(entry) do
@@ -81,13 +100,17 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
     %Image{image | url: url}
   end
 
-  def consume_image(socket, %Image{} = image) do
-    consume_uploaded_entries(socket, :images, fn meta, entry ->
-      dest = Path.join("priv/static/images", "#{entry.uuid}.#{ext(entry)}")
-      File.cp!(meta.path, dest)
-    end)
+  def consume_images(socket) do
+    consume_uploaded_entries(
+      socket,
+      :images,
+      fn meta, entry ->
+        dest = Path.join("priv/static/images", "#{entry.uuid}.#{ext(entry)}")
+        File.cp!(meta.path, dest)
+      end
+    )
 
-    {:ok, image}
+    :ok
   end
 
 end
