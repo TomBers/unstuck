@@ -3,6 +3,8 @@ defmodule Unstuck.Accounts.User do
   import Ecto.Changeset
   use Waffle.Ecto.Schema
 
+  @is_dev_env Application.get_env(:unstuck, :env) == :dev
+
   @derive {Inspect, except: [:password]}
   schema "users" do
     field :email, :string
@@ -55,6 +57,20 @@ defmodule Unstuck.Accounts.User do
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
     # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
     |> maybe_hash_password(opts)
+  end
+
+  #  TODO DEV mode
+  defp maybe_hash_password(changeset, opts) when @is_dev_env do
+    hash_password? = Keyword.get(opts, :hash_password, true)
+    password = get_change(changeset, :password)
+
+    if hash_password? && password && changeset.valid? do
+      changeset
+      |> put_change(:hashed_password, password)
+      |> delete_change(:password)
+    else
+      changeset
+    end
   end
 
   defp maybe_hash_password(changeset, opts) do
@@ -118,9 +134,20 @@ defmodule Unstuck.Accounts.User do
   If there is no user or the user doesn't have a password, we call
   `Bcrypt.no_user_verify/0` to avoid timing attacks.
   """
+  #  TODO DEV mode
+  def valid_password?(%Unstuck.Accounts.User{hashed_password: hashed_password}, password)
+      when is_binary(hashed_password) and byte_size(password) > 0 and @is_dev_env do
+    password == hashed_password
+  end
+
   def valid_password?(%Unstuck.Accounts.User{hashed_password: hashed_password}, password)
       when is_binary(hashed_password) and byte_size(password) > 0 do
     Bcrypt.verify_pass(password, hashed_password)
+  end
+
+  #  TODO DEV mode
+  def valid_password?(_, _) when @is_dev_env do
+    false
   end
 
   def valid_password?(_, _) do
