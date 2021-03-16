@@ -3,6 +3,8 @@ defmodule Unstuck.Accounts.User do
   import Ecto.Changeset
   use Waffle.Ecto.Schema
 
+  alias Unstuck.Progress.Activity
+
   @is_dev_env Application.get_env(:unstuck, :env) == :dev
 
   @derive {Inspect, except: [:password]}
@@ -13,6 +15,7 @@ defmodule Unstuck.Accounts.User do
     field :confirmed_at, :naive_datetime
     field :avatar, Unstuck.AvatarUploader.Type
 
+    has_many :activities, Activity
     timestamps()
   end
 

@@ -3,6 +3,7 @@ defmodule UnstuckWeb.TaskController do
 
   alias Unstuck.Ideas
   alias Unstuck.Ideas.Task
+  alias Unstuck.Accounts
 
   def index(conn, _params) do
     tasks = Ideas.list_tasks()
@@ -14,10 +15,21 @@ defmodule UnstuckWeb.TaskController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def upload(conn, params) do
-    IO.inspect(conn)
-    IO.inspect(params)
-    render(conn, "empty.html")
+  def my_tasks(conn, _params) do
+    user = conn.assigns.current_user
+    tasks = Accounts.my_tasks(user)
+    IO.inspect(tasks)
+    render(conn, "tasks.html", tasks: tasks)
+  end
+
+  def start_task(conn, %{"id" => task_id}) do
+    user_id = conn.assigns.current_user.id
+#    TODO add an unique constraint for [user_id, task_id]
+    Progress.create_activity(%{user_id: user_id, task_id: task_id})
+    conn
+    |> put_flash(:info, "Started successfully.")
+    |> redirect(to: Routes.task_path(conn, :index))
+
   end
 
   def create(conn, %{"task" => task_params}) do

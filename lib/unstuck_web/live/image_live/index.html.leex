@@ -1,35 +1,9 @@
-<h1>Listing Images</h1>
-
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, UnstuckWeb.ImageLive.FormComponent,
     id: @image.id || :new,
     title: @page_title,
     action: @live_action,
     image: @image,
-    return_to: Routes.image_index_path(@socket, :index) %>
+    activity: @activity,
+    return_to: Routes.task_path(@socket, :my_tasks) %>
 <% end %>
-
-<table>
-  <thead>
-    <tr>
-      <th>Url</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="images">
-    <%= for image <- @images do %>
-      <tr id="image-<%= image.id %>">
-        <td><%= image.url %></td>
-
-        <td>
-          <span><%= live_redirect "Show", to: Routes.image_show_path(@socket, :show, image) %></span>
-          <span><%= live_patch "Edit", to: Routes.image_index_path(@socket, :edit, image) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: image.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<span><%= live_patch "New Image", to: Routes.image_index_path(@socket, :new) %></span>

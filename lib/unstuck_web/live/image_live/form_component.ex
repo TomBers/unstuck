@@ -11,7 +11,7 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
 
   @impl true
   def update(%{image: image} = assigns, socket) do
-    changeset = Progress.change_image(image, %{activity_id: 4})
+    changeset = Progress.change_image(image)
 
     {:ok,
      socket
@@ -29,8 +29,9 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("save", %{"image" => image_params}, socket) do
-    save_image(socket, image_params)
+  def handle_event("save", %{"image" => %{"activity_id" => activity_id}}, socket) do
+    activity = Progress.get_activity!(activity_id)
+    save_image(socket, activity)
   end
 
 #  defp save_image(socket, :edit, image_params) do
@@ -47,10 +48,9 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
 #    end
 #  end
 
-  defp save_image(socket, image_params) do
-    IO.inspect(image_params)
-    image = put_image_url(socket, %Image{activity_id: 4})
-    case Progress.create_image(image, %{}, &consume_image(socket, &1)) do
+  defp save_image(socket, activity) do
+    image = put_image_url(socket, %Image{})
+    case Progress.create_image(image, %{}, activity, &consume_image(socket, &1)) do
       {:ok, _image} ->
         {:noreply,
          socket

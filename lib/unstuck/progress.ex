@@ -145,9 +145,9 @@ defmodule Unstuck.Progress do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_image(image, attrs \\ %{}, after_save) do
+  def create_image(image, attrs \\ %{}, activity, after_save) do
     image
-    |> Image.changeset(attrs)
+    |> Image.changeset(attrs, activity)
     |> Repo.insert()
     |> after_save(after_save)
   end
@@ -164,11 +164,11 @@ defmodule Unstuck.Progress do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_image(%Image{} = image, attrs) do
-    image
-    |> Image.changeset(attrs)
-    |> Repo.update()
-  end
+#  def update_image(%Image{} = image, attrs) do
+#    image
+#    |> Image.changeset(attrs)
+#    |> Repo.update()
+#  end
 
   defp after_save({:ok, image}, func) do
     {:ok, _image} = func.(image)

@@ -1,0 +1,11 @@
+<h1>My Tasks</h1>
+
+
+<%= for t <- @tasks do %>
+      <h1><%= t.task.name %>
+            <%= for i <- t.images do %>
+                  <img src="<%= i.url %>" />
+            <% end %>
+            <a href="/task/progress/<%= t.id %>">Add image</a>
+      </h1>
+<% end %>

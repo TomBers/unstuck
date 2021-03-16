@@ -92,6 +92,11 @@ defmodule Unstuck.Accounts do
     User.registration_changeset(user, attrs, hash_password: false)
   end
 
+  def my_tasks(user) do
+    user = Repo.get_by(User, id: user.id) |> Repo.preload([{:activities, :task}, {:activities, :images}, :activities])
+    user.activities
+  end
+
   ## Settings
 
   @doc """

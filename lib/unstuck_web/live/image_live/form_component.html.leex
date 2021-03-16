@@ -32,7 +32,7 @@
 </div>
 <% end %>
 
-  <%= text_input f, :activity_id %>
+  <%= text_input f, :activity_id, value: @activity %>
 
   <%= submit "Save", phx_disable_with: "Saving..." %>
 </form>

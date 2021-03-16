@@ -5,8 +5,14 @@ defmodule UnstuckWeb.ImageLive.Index do
   alias Unstuck.Progress.Image
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :images, list_images())}
+  def mount(%{"id" => activity_id}, _session, socket) do
+
+    socket =
+      socket
+      |> assign(:images, list_images())
+      |> assign(:activity, activity_id)
+
+    {:ok, socket}
   end
 
   @impl true
@@ -28,7 +34,7 @@ defmodule UnstuckWeb.ImageLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Images")
+    |> assign(:page_title, "Add progress")
     |> assign(:image, nil)
   end
 

@@ -13,9 +13,16 @@ defmodule Unstuck.Progress.Image do
   end
 
   @doc false
+  def changeset(image, attrs, activity) do
+    image
+    |> cast(attrs, [:url])
+    |> put_assoc(:activity, activity)
+    |> validate_required([:url])
+  end
+
   def changeset(image, attrs) do
     image
-    |> cast(attrs, [:url, :activity_id])
-    |> validate_required([:url, :activity_id])
+    |> cast(attrs, [:url])
+    |> validate_required([:url])
   end
 end

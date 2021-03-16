@@ -3,12 +3,14 @@ defmodule Unstuck.Progress.Activity do
   import Ecto.Changeset
 
   alias Unstuck.Progress.Image
+  alias Unstuck.Ideas.Task
+  alias Unstuck.Accounts.User
 
   schema "activities" do
     field :completed_at, :date
-    field :user_id, :id
-    field :task_id, :id
 
+    belongs_to :user, User
+    belongs_to :task, Task
     has_many :images, Image, on_delete: :delete_all
 
 
