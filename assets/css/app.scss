@@ -6,6 +6,11 @@
   @apply hidden;
 }
 
+.dropzone {
+    min-height: 50px;
+    border: 1px dashed black;
+}
+
 .alert:empty {
   @apply hidden;
 }

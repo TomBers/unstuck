@@ -44,19 +44,6 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
     save_image(socket, activity)
   end
 
-  #  defp save_image(socket, :edit, image_params) do
-  #
-  #    case Progress.update_image(socket.assigns.image, image_params) do
-  #      {:ok, _image} ->
-  #        {:noreply,
-  #         socket
-  #         |> put_flash(:info, "Image updated successfully")
-  #         |> push_redirect(to: socket.assigns.return_to)}
-  #
-  #      {:error, %Ecto.Changeset{} = changeset} ->
-  #        {:noreply, assign(socket, :changeset, changeset)}
-  #    end
-  #  end
 
   defp save_image(socket, activity) do
     process_images(socket, activity)
@@ -85,19 +72,6 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
   defp ext(entry) do
     [ext | _] = MIME.extensions(entry.client_type)
     ext
-  end
-
-  defp put_image_url(socket, %Image{} = image) do
-    {completed, []} = uploaded_entries(socket, :images)
-
-    urls =
-      for entry <- completed do
-        Routes.static_path(socket, "/images/#{entry.uuid}.#{ext(entry)}")
-      end
-
-    url = Enum.at(urls, 0)
-
-    %Image{image | url: url}
   end
 
   def consume_images(socket) do
