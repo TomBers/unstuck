@@ -1,0 +1,22 @@
+<h1>Show Image</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, UnstuckWeb.ImageLive.FormComponent,
+    id: @image.id,
+    title: @page_title,
+    action: @live_action,
+    image: @image,
+    return_to: Routes.image_show_path(@socket, :show, @image) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Url:</strong>
+    <%= @image.url %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.image_show_path(@socket, :edit, @image), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.image_index_path(@socket, :index) %></span>

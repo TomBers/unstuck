@@ -13,6 +13,8 @@
   <%= label f, :completed_at %>
   <%= date_select f, :completed_at %>
   <%= error_tag f, :completed_at %>
+  <%= text_input f, :user_id %>
+  <%= text_input f, :task_id %>
 
   <%= submit "Save", phx_disable_with: "Saving..." %>
 </form>

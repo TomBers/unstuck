@@ -21,6 +21,10 @@
     <%= @activity.completed_at %>
   </li>
 
+ <%= for image <- @activity.images do %>
+  <img src="<%= image.url %>" />
+  <% end %>
+
 </ul>
 
 <span><%= live_patch "Edit", to: Routes.activity_show_path(@socket, :edit, @activity), class: "button" %></span>

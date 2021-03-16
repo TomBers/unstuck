@@ -5,7 +5,7 @@ defmodule UnstuckWeb.ActivityLive.FormComponent do
 
   @impl true
   def update(%{activity: activity} = assigns, socket) do
-    changeset = Progress.change_activity(activity)
+    changeset = Progress.change_activity(activity, %{user_id: 1, task_id: 1})
 
     {:ok,
      socket
