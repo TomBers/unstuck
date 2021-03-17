@@ -31,6 +31,7 @@ defmodule UnstuckWeb do
     quote do
       use Phoenix.View,
         root: "lib/unstuck_web/templates",
+        pattern: "**/*",
         namespace: UnstuckWeb
 
       # Import convenience functions from controllers

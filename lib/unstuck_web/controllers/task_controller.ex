@@ -28,7 +28,7 @@ defmodule UnstuckWeb.TaskController do
     Progress.create_activity(%{user_id: user_id, task_id: task_id})
     conn
     |> put_flash(:info, "Started successfully.")
-    |> redirect(to: Routes.task_path(conn, :index))
+    |> redirect(to: Routes.task_path(conn, :my_tasks))
 
   end
 
