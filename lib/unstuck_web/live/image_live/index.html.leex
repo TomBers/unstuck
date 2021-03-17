@@ -5,5 +5,18 @@
     action: @live_action,
     image: @image,
     activity: @activity,
-    return_to: Routes.task_path(@socket, :my_tasks) %>
+    return_to: Routes.image_index_path(@socket, :index) %>
+<% end %>
+
+
+<%= for t <- @tasks do %>
+<%= show_task(@socket, t) %>
+<h1>Started At: <%= t.inserted_at %></h1>
+<h1><%= !is_nil(t.completed_at) %>
+  <%= for i <- t.images do %>
+  <img src="<%= i.url %>" />
+  <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: i.id, data: [confirm: "Are you sure?"] %></span>
+  <% end %>
+  <a href="/mytasks/<%= t.id %>">Add image</a>
+</h1>
 <% end %>
