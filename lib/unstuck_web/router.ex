@@ -28,12 +28,12 @@ defmodule UnstuckWeb.Router do
 
     live "/", PageLive, :index
 
-    live "/activities", ActivityLive.Index, :index
-    live "/activities/new", ActivityLive.Index, :new
-    live "/activities/:id/edit", ActivityLive.Index, :edit
-
-    live "/activities/:id", ActivityLive.Show, :show
-    live "/activities/:id/show/edit", ActivityLive.Show, :edit
+#    live "/activities", ActivityLive.Index, :index
+#    live "/activities/new", ActivityLive.Index, :new
+#    live "/activities/:id/edit", ActivityLive.Index, :edit
+#
+#    live "/activities/:id", ActivityLive.Show, :show
+#    live "/activities/:id/show/edit", ActivityLive.Show, :edit
 
     live "/mytasks", ImageLive.Index, :index
     live "/mytasks/:id", ImageLive.Index, :new
