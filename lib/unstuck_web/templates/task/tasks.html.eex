@@ -2,7 +2,9 @@
 
 
 <%= for t <- @tasks do %>
-      <h1><%= t.task.name %>
+    <%= render "html/#{t.task.name}.html" %>
+<h1>Started At: <%= t.inserted_at %></h1>
+<h1><%= !is_nil(t.completed_at) %>
             <%= for i <- t.images do %>
                   <img src="<%= i.url %>" />
             <% end %>

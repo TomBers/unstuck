@@ -4,6 +4,7 @@ defmodule UnstuckWeb.TaskController do
   alias Unstuck.Ideas
   alias Unstuck.Ideas.Task
   alias Unstuck.Accounts
+  alias Unstuck.Progress
 
   def index(conn, _params) do
     tasks = Ideas.list_tasks()
@@ -18,7 +19,6 @@ defmodule UnstuckWeb.TaskController do
   def my_tasks(conn, _params) do
     user = conn.assigns.current_user
     tasks = Accounts.my_tasks(user)
-    IO.inspect(tasks)
     render(conn, "tasks.html", tasks: tasks)
   end
 
@@ -28,7 +28,7 @@ defmodule UnstuckWeb.TaskController do
     Progress.create_activity(%{user_id: user_id, task_id: task_id})
     conn
     |> put_flash(:info, "Started successfully.")
-    |> redirect(to: Routes.task_path(conn, :index))
+    |> redirect(to: Routes.task_path(conn, :my_tasks))
 
   end
 
