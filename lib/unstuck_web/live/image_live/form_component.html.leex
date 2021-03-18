@@ -9,9 +9,8 @@
 <%= for {_ref, msg} <- @uploads.images.errors do %>
 <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
 <% end %>
-
+<h1>Add images</h1>
 <div class="container dropzone" phx-drop-target="<%= @uploads.images.ref %>">
-  <h1>Drop images here</h1>
   <%= live_file_input @uploads.images %>
 </div>
 
@@ -33,6 +32,6 @@
 <% end %>
 
   <%= hidden_input f, :activity_id, value: @activity %>
-
-  <%= submit "Save", phx_disable_with: "Saving..." %>
+<br>
+  <%= submit "Save", phx_disable_with: "Saving...", class: "btn btn-primary btn-lg bg-green-400 hover:bg-green-500" %>
 </form>

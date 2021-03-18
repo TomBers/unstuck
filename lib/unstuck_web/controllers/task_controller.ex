@@ -16,11 +16,11 @@ defmodule UnstuckWeb.TaskController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def my_tasks(conn, _params) do
-    user = conn.assigns.current_user
-    tasks = Accounts.my_tasks(user)
-    render(conn, "tasks.html", tasks: tasks)
-  end
+#  def my_tasks(conn, _params) do
+#    user = conn.assigns.current_user
+#    tasks = Accounts.my_tasks(user)
+#    render(conn, "tasks.html", tasks: tasks)
+#  end
 
   def start_task(conn, %{"id" => task_id}) do
     user_id = conn.assigns.current_user.id
@@ -28,7 +28,7 @@ defmodule UnstuckWeb.TaskController do
     Progress.create_activity(%{user_id: user_id, task_id: task_id})
     conn
     |> put_flash(:info, "Started successfully.")
-    |> redirect(to: Routes.task_path(conn, :my_tasks))
+    |> redirect(to: Routes.image_index_path(conn, :index))
 
   end
 

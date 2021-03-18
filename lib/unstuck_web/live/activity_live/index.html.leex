@@ -21,12 +21,11 @@
   <tbody id="activities">
     <%= for activity <- @activities do %>
       <tr id="activity-<%= activity.id %>">
-        <td><%= activity.url %></td>
         <td><%= activity.completed_at %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.activity_show_path(@socket, :show, activity) %></span>
-          <span><%= live_patch "Edit", to: Routes.activity_index_path(@socket, :edit, activity) %></span>
+          <span><%= #live_redirect "Show", to: Routes.activity_show_path(@socket, :show, activity) %></span>
+          <span><%= #live_patch "Edit", to: Routes.activity_index_path(@socket, :edit, activity) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: activity.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>
@@ -34,4 +33,4 @@
   </tbody>
 </table>
 
-<span><%= live_patch "New Activity", to: Routes.activity_index_path(@socket, :new) %></span>
+<span><%= #live_patch "New Activity", to: Routes.activity_index_path(@socket, :new) %></span>

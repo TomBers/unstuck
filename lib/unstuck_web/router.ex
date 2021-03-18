@@ -29,26 +29,22 @@ defmodule UnstuckWeb.Router do
     live "/", PageLive, :index
 
     live "/activities", ActivityLive.Index, :index
-    live "/activities/new", ActivityLive.Index, :new
-    live "/activities/:id/edit", ActivityLive.Index, :edit
+#    live "/activities/new", ActivityLive.Index, :new
+#    live "/activities/:id/edit", ActivityLive.Index, :edit
+#
+#    live "/activities/:id", ActivityLive.Show, :show
+#    live "/activities/:id/show/edit", ActivityLive.Show, :edit
 
-    live "/activities/:id", ActivityLive.Show, :show
-    live "/activities/:id/show/edit", ActivityLive.Show, :edit
-
-#    live "/images", ImageLive.Index, :index
-    live "/task/progress/:id", ImageLive.Index, :new
+    live "/mytasks", ImageLive.Index, :index
+    live "/mytasks/:id", ImageLive.Index, :new
 #    live "/images/:id/edit", ImageLive.Index, :edit
 
 #    live "/images/:id", ImageLive.Show, :show
 #    live "/images/:id/show/edit", ImageLive.Show, :edit
 
     post "/tasks/start_task/:id", TaskController, :start_task
-    get "/mytasks", TaskController, :my_tasks
+#    get "/mytasks", TaskController, :my_tasks
 
-  end
-
-  scope "/images", UnstuckWeb do
-    put "/upload", TaskController, :upload
   end
 
   # Other scopes may use custom stacks.

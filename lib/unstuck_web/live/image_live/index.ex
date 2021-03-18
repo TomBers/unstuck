@@ -1,17 +1,30 @@
 defmodule UnstuckWeb.ImageLive.Index do
   use UnstuckWeb, :live_view
 
+  alias Unstuck.Accounts
   alias Unstuck.Progress
   alias Unstuck.Progress.Image
 
   @impl true
-  def mount(%{"id" => activity_id}, _session, socket) do
-
+  def mount(%{"id" => activity_id}, %{"user_token" => user_token}, socket) do
+    user = Accounts.get_user_by_session_token(user_token)
+    tasks = Accounts.my_tasks(user)
     socket =
       socket
-      |> assign(:images, list_images())
       |> assign(:activity, activity_id)
+      |> assign(:tasks, tasks)
+      |> assign(:user, user)
 
+    {:ok, socket}
+  end
+
+  def mount(_params, %{"user_token" => user_token}, socket) do
+    user = Accounts.get_user_by_session_token(user_token)
+    tasks = Accounts.my_tasks(user)
+    socket =
+      socket
+      |> assign(:tasks, tasks)
+      |> assign(:user, user)
     {:ok, socket}
   end
 
@@ -28,7 +41,7 @@ defmodule UnstuckWeb.ImageLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Image")
+    |> assign(:page_title, "")
     |> assign(:image, %Image{})
   end
 
@@ -43,10 +56,19 @@ defmodule UnstuckWeb.ImageLive.Index do
     image = Progress.get_image!(id)
     {:ok, _} = Progress.delete_image(image)
 
-    {:noreply, assign(socket, :images, list_images())}
+    tasks = Accounts.my_tasks(socket.assigns.user)
+
+    {:noreply, assign(socket, :tasks, tasks)}
   end
 
-  defp list_images do
-    Progress.list_images()
+  def show_task(socket, activity) do
+    UnstuckWeb.TaskView.render("html/#{activity.task.name}.html")
   end
+
+  def incomplete_tasks(tasks) do
+    tasks
+    |> Enum.filter(fn(t) -> is_nil(t.completed_at) end)
+    |> length
+  end
+
 end

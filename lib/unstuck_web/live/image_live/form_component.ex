@@ -47,10 +47,11 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
 
   defp save_image(socket, activity) do
     process_images(socket, activity)
+    Progress.mark_process_done(activity)
     {
       :noreply,
       socket
-      |> put_flash(:info, "Image created successfully")
+      |> put_flash(:info, "Task Complete")
       |> push_redirect(to: socket.assigns.return_to)
     }
   end
