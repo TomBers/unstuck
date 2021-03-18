@@ -8,6 +8,10 @@ activity: @activity,
 return_to: Routes.image_index_path(@socket, :index) %>
 <% end %>
 
+<h1>Stats</h1>
+<h2>Task : <%= length(@tasks) %></h2>
+<h2>Complete: <%= length(@tasks) - incomplete_tasks(@tasks) %></h2>
+<h2>Incomplete: <%= incomplete_tasks(@tasks) %></h2>
 <div class="grid grid-cols-2 gap-4">
     <%= for t <- @tasks do %>
     <%= if is_nil(t.completed_at) do %>
@@ -25,12 +29,13 @@ return_to: Routes.image_index_path(@socket, :index) %>
             <img src="<%= i.url %>"/>
             <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: i.id, data: [confirm: "Are you sure?"] %></span>
             <% end %>
-
+            <%= if is_nil(t.completed_at) do %>
             <div class="inline-block mr-2 mt-2">
                 <a href="/mytasks/<%= t.id %>">
-                    <button type="button" class="btn btn-primary">Add image</button>
+                    <button type="button" class="btn btn-primary">Mark complete</button>
                 </a>
             </div>
+            <% end %>
         </div>
         <% end %>
     </div>

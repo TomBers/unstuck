@@ -65,4 +65,10 @@ defmodule UnstuckWeb.ImageLive.Index do
     UnstuckWeb.TaskView.render("html/#{activity.task.name}.html")
   end
 
+  def incomplete_tasks(tasks) do
+    tasks
+    |> Enum.filter(fn(t) -> is_nil(t.completed_at) end)
+    |> length
+  end
+
 end

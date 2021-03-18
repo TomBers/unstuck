@@ -67,6 +67,10 @@ defmodule Unstuck.Progress do
       {:error, %Ecto.Changeset{}}
 
   """
+  def mark_process_done(activity) do
+    update_activity(activity, %{completed_at: Date.utc_today()})
+  end
+
   def update_activity(%Activity{} = activity, attrs) do
     activity
     |> Activity.changeset(attrs)
