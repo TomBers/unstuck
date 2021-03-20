@@ -8,12 +8,13 @@ activity: @activity,
 return_to: Routes.image_index_path(@socket, :index) %>
 <% end %>
 
-<h1>Stats</h1>
-<h2>Task : <%= length(@tasks) %></h2>
-<h2>Complete: <%= length(@tasks) - incomplete_tasks(@tasks) %></h2>
-<h2>Incomplete: <%= incomplete_tasks(@tasks) %></h2>
+
+<h2>Task : <%= length(@tasks) %> Complete: <%= length(@tasks) - incomplete_tasks(@tasks) %> Incomplete: <%= incomplete_tasks(@tasks) %></h2>
+
+<%= for {date, tasks} <- order_by_date(@tasks) do %>
+<div class="text-4xl m-6"><%= "#{date.day}/#{date.month}/#{date.year}" %></div>
 <div class="grid grid-cols-2 gap-4">
-    <%= for t <- @tasks do %>
+    <%= for t <- tasks do %>
     <%= if is_nil(t.completed_at) do %>
     <div class="bg-green-100 rounded">
         <% else %>
@@ -26,7 +27,7 @@ return_to: Routes.image_index_path(@socket, :index) %>
             <br>
 
             <%= for i <- t.images do %>
-            <img src="<%= i.url %>"/>
+            <img src="<%= get_s3_path(i.url) %>"/>
             <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: i.id, data: [confirm: "Are you sure?"] %></span>
             <% end %>
             <%= if is_nil(t.completed_at) do %>
@@ -39,3 +40,4 @@ return_to: Routes.image_index_path(@socket, :index) %>
         </div>
         <% end %>
     </div>
+    <% end %>
