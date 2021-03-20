@@ -1,9 +1,20 @@
+<%= for {n, tasks} <- group_tasks(@tasks) do %>
+<h1>Level <%= n %></h1>
 <div class="grid grid-cols-2 gap-4">
-<%= for task <- @tasks do %>
-    <div class="bg-green-100 rounded">
-      <%= render "html/#{task.name}.html" %>
-    <br>
-    <%= link "Start", to: Routes.task_path(@conn, :start_task, task), method: :post, class: "btn btn-primary" %>
+    <%= for task <- tasks do %>
+    <div class="bg-green-50 rounded">
+        <%= render "html/#{task.name}.html" %>
+        <br>
+        <%= link "Start", to: Routes.task_path(@conn, :start_task, task), method: :post, class: "btn btn-primary" %>
     </div>
-<% end %>
+    <% end %>
 </div>
+<br><br>
+<% end %>
+
+
+
+
+
+
+

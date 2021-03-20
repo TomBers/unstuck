@@ -6,6 +6,7 @@ defmodule Unstuck.Ideas.Task do
 
   schema "tasks" do
     field :name, :string
+    field :level, :integer
 
     has_many :activities, Activity, on_delete: :delete_all
 
