@@ -9,13 +9,10 @@ return_to: Routes.image_index_path(@socket, :index) %>
 <% end %>
 
 
-<h1>Stats</h1>
-<h2>Task : <%= length(@tasks) %></h2>
-<h2>Complete: <%= length(@tasks) - incomplete_tasks(@tasks) %></h2>
-<h2>Incomplete: <%= incomplete_tasks(@tasks) %></h2>
+<h2>Task : <%= length(@tasks) %> Complete: <%= length(@tasks) - incomplete_tasks(@tasks) %> Incomplete: <%= incomplete_tasks(@tasks) %></h2>
 
-    <%= for {date, tasks} <- order_by_date(@tasks) do %>
-    Date: <%= date %>
+<%= for {date, tasks} <- order_by_date(@tasks) do %>
+<div class="text-4xl m-6"><%= "#{date.day}/#{date.month}/#{date.year}" %></div>
 <div class="grid grid-cols-2 gap-4">
     <%= for t <- tasks do %>
     <%= if is_nil(t.completed_at) do %>
@@ -43,4 +40,4 @@ return_to: Routes.image_index_path(@socket, :index) %>
         </div>
         <% end %>
     </div>
-        <% end %>
+    <% end %>
