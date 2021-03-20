@@ -71,6 +71,14 @@ defmodule UnstuckWeb.ImageLive.Index do
     |> length
   end
 
+  def order_by_date(tasks) do
+    tasks
+    |> Enum.map(fn(task) -> Map.put(task, :start_date, NaiveDateTime.to_date(task.inserted_at)) end)
+    |> Enum.sort_by(&(&1.start_date), Date)
+    |> Enum.group_by(fn(task) -> task.start_date end)
+    |> Enum.reverse()
+  end
+
   def get_s3_path(filename) do
     "https://unstuck-image-store.s3-eu-west-1.amazonaws.com/uploads/#{filename}"
   end
