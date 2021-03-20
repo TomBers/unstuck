@@ -3,6 +3,7 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
 
   alias Unstuck.Progress
   alias Unstuck.Progress.Image
+  alias Unstuck.AvatarUploader
 
   @impl true
   def mount(socket) do
@@ -65,8 +66,7 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
   end
 
   def save_and_store_img(socket, img, activity) do
-    url = Routes.static_path(socket, "/images/#{img.uuid}.#{ext(img)}")
-    image = %Image{url: url}
+    image = %Image{url: "#{img.uuid}.#{ext(img)}"}
     Progress.create_image(image, %{}, activity)
   end
 
@@ -80,8 +80,10 @@ defmodule UnstuckWeb.ImageLive.FormComponent do
       socket,
       :images,
       fn meta, entry ->
+        # TODO - think of a better way to deal with temp files
         dest = Path.join("priv/static/images", "#{entry.uuid}.#{ext(entry)}")
         File.cp!(meta.path, dest)
+        AvatarUploader.store(dest)
       end
     )
 

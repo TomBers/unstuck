@@ -71,4 +71,8 @@ defmodule UnstuckWeb.ImageLive.Index do
     |> length
   end
 
+  def get_s3_path(filename) do
+    "https://unstuck-image-store.s3-eu-west-1.amazonaws.com/uploads/#{filename}"
+  end
+
 end
